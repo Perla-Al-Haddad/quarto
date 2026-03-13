@@ -13,7 +13,6 @@ website:
 format:
   html:
     theme:
-      - dark
-    css: styles.css
+      - darkly
     toc: true
 
