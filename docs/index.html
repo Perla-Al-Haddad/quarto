@@ -105,6 +105,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
 
 </head>
@@ -170,23 +172,191 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-startfrom="13" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 12;"><span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>THREE <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0"</span>)<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>OrbitControls <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0/examples/jsm/controls/OrbitControls.js"</span>)<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>OBJLoader  <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0/addons/loaders/OBJLoader.js"</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> width<span class="op">;</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>scene <span class="op">=</span> {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> THREE_Lib <span class="op">=</span> <span class="cf">await</span> THREE<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { <span class="dt">OBJLoader</span><span class="op">:</span> LoaderClass } <span class="op">=</span> <span class="cf">await</span> OBJLoader<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> s <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Scene</span>()<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="at">background</span> <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Color</span>(<span class="bn">0x111111</span>)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> <span class="fu">LoaderClass</span>()<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> object <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">loadAsync</span>(<span class="st">'lowpolygoat/goat.obj'</span>)<span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    object<span class="op">.</span><span class="fu">traverse</span>((child) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (child<span class="op">.</span><span class="at">isMesh</span>) {</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        child<span class="op">.</span><span class="at">material</span> <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">MeshNormalMaterial</span>({})<span class="op">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> box <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Box3</span>()<span class="op">.</span><span class="fu">setFromObject</span>(object)<span class="op">;</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> size <span class="op">=</span> box<span class="op">.</span><span class="fu">getSize</span>(<span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Vector3</span>())<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> maxDim <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(size<span class="op">.</span><span class="at">x</span><span class="op">,</span> size<span class="op">.</span><span class="at">y</span><span class="op">,</span> size<span class="op">.</span><span class="at">z</span>)<span class="op">;</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> scale <span class="op">=</span> <span class="dv">2</span> <span class="op">/</span> maxDim<span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    object<span class="op">.</span><span class="at">scale</span><span class="op">.</span><span class="fu">set</span>(scale<span class="op">,</span> scale<span class="op">,</span> scale)<span class="op">;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    box<span class="op">.</span><span class="fu">setFromObject</span>(object)<span class="op">;</span> </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> center <span class="op">=</span> box<span class="op">.</span><span class="fu">getCenter</span>(<span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Vector3</span>())<span class="op">;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    center<span class="op">.</span><span class="at">y</span> <span class="op">-=</span> <span class="fl">0.68</span><span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    object<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">sub</span>(center)<span class="op">;</span> </span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    s<span class="op">.</span><span class="fu">add</span>(object)<span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Failed to load the goat:"</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> light <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">DirectionalLight</span>(<span class="bn">0xffffff</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  light<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">2</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>(light)<span class="op">;</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>(<span class="kw">new</span> THREE<span class="op">.</span><span class="fu">AmbientLight</span>(<span class="bn">0xffffff</span><span class="op">,</span> <span class="fl">0.5</span>))<span class="op">;</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const geo = new THREE.BoxGeometry(1, 1, 1);</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const mat = new THREE.MeshStandardMaterial({ color: 0x00AAff });</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const mesh = new THREE.Mesh(geo, mat);</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="co">// s.add(mesh);</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> size <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> divisions <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> gridHelper <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">GridHelper</span>( size<span class="op">,</span> divisions )<span class="op">;</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>( gridHelper )<span class="op">;</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> s<span class="op">;</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>camera <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">PerspectiveCamera</span>(<span class="dv">60</span><span class="op">,</span> w <span class="op">/</span> h<span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>  camera<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">set</span>(<span class="fl">3.5</span><span class="op">,</span> <span class="fl">4.5</span><span class="op">,</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  camera<span class="op">.</span><span class="fu">lookAt</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-startfrom="78" data-source-offset="-1786"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 77;"><span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>renderer <span class="op">=</span> {</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> r <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">WebGLRenderer</span>({ <span class="dt">antialias</span><span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> controls <span class="op">=</span> <span class="kw">new</span> OrbitControls<span class="op">.</span><span class="fu">OrbitControls</span>(camera<span class="op">,</span> r<span class="op">.</span><span class="at">domElement</span>)<span class="op">;</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  controls<span class="op">.</span><span class="at">keys</span> <span class="op">=</span> {</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="dt">LEFT</span><span class="op">:</span> <span class="st">'ArrowLeft'</span><span class="op">,</span> <span class="co">//left arrow</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    <span class="dt">UP</span><span class="op">:</span> <span class="st">'ArrowUp'</span><span class="op">,</span> <span class="co">// up arrow</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>    <span class="dt">RIGHT</span><span class="op">:</span> <span class="st">'ArrowRight'</span><span class="op">,</span> <span class="co">// right arrow</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    <span class="dt">BOTTOM</span><span class="op">:</span> <span class="st">'ArrowDown'</span> <span class="co">// down arrow</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  r<span class="op">.</span><span class="fu">setSize</span>(w<span class="op">,</span> h)<span class="op">;</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  r<span class="op">.</span><span class="fu">setPixelRatio</span>(<span class="bu">window</span><span class="op">.</span><span class="at">devicePixelRatio</span>)<span class="op">;</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> r<span class="op">;</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="kw">true</span>) {</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    <span class="co">// scene.children.forEach(child =&gt; {</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.z += 0.01;</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.y += 0.01;</span></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.x += 0.01;</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    <span class="co">// });</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>    renderer<span class="op">.</span><span class="fu">render</span>(scene<span class="op">,</span> camera)<span class="op">;</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> renderer<span class="op">.</span><span class="at">domElement</span><span class="op">;</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-9" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-10" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
 <p>This is a Quarto website.</p>
 <p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
 <div id="cell-fig-polar" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  subplot_kw <span class="op">=</span> {<span class="st">'projection'</span>: <span class="st">'polar'</span>} </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  subplot_kw <span class="op">=</span> {<span class="st">'projection'</span>: <span class="st">'polar'</span>} </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-polar" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -205,6 +375,17 @@ Figure&nbsp;1: A line plot on a polar axis
 
 
 </main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlRIUkVFID0gaW1wb3J0KFwiaHR0cHM6Ly9lc20uc2gvdGhyZWVAMC4xNjMuMFwiKTtcbk9yYml0Q29udHJvbHMgPSBpbXBvcnQoXCJodHRwczovL2VzbS5zaC90aHJlZUAwLjE2My4wL2V4YW1wbGVzL2pzbS9jb250cm9scy9PcmJpdENvbnRyb2xzLmpzXCIpO1xuT0JKTG9hZGVyICA9IGltcG9ydChcImh0dHBzOi8vZXNtLnNoL3RocmVlQDAuMTYzLjAvYWRkb25zL2xvYWRlcnMvT0JKTG9hZGVyLmpzXCIpO1xuXG5oID0gNjAwO1xudyA9IHdpZHRoOyBcblxuc2NlbmUgPSB7XG4gIGNvbnN0IFRIUkVFX0xpYiA9IGF3YWl0IFRIUkVFO1xuICBjb25zdCB7IE9CSkxvYWRlcjogTG9hZGVyQ2xhc3MgfSA9IGF3YWl0IE9CSkxvYWRlcjtcbiAgXG4gIGNvbnN0IHMgPSBuZXcgVEhSRUVfTGliLlNjZW5lKCk7XG4gIHMuYmFja2dyb3VuZCA9IG5ldyBUSFJFRV9MaWIuQ29sb3IoMHgxMTExMTEpO1xuXG4gIGNvbnN0IGxvYWRlciA9IG5ldyBMb2FkZXJDbGFzcygpO1xuICB0cnkge1xuICAgIGNvbnN0IG9iamVjdCA9IGF3YWl0IGxvYWRlci5sb2FkQXN5bmMoJ2xvd3BvbHlnb2F0L2dvYXQub2JqJyk7XG5cbiAgICBvYmplY3QudHJhdmVyc2UoKGNoaWxkKSA9PiB7XG4gICAgICBpZiAoY2hpbGQuaXNNZXNoKSB7XG4gICAgICAgIGNoaWxkLm1hdGVyaWFsID0gbmV3IFRIUkVFX0xpYi5NZXNoTm9ybWFsTWF0ZXJpYWwoe30pO1xuICAgICAgfVxuICAgIH0pO1xuXG4gICAgY29uc3QgYm94ID0gbmV3IFRIUkVFX0xpYi5Cb3gzKCkuc2V0RnJvbU9iamVjdChvYmplY3QpO1xuICAgIGNvbnN0IHNpemUgPSBib3guZ2V0U2l6ZShuZXcgVEhSRUVfTGliLlZlY3RvcjMoKSk7XG4gICAgXG4gICAgY29uc3QgbWF4RGltID0gTWF0aC5tYXgoc2l6ZS54LCBzaXplLnksIHNpemUueik7XG4gICAgY29uc3Qgc2NhbGUgPSAyIC8gbWF4RGltO1xuICAgIG9iamVjdC5zY2FsZS5zZXQoc2NhbGUsIHNjYWxlLCBzY2FsZSk7XG5cbiAgICBib3guc2V0RnJvbU9iamVjdChvYmplY3QpOyBcbiAgICBjb25zdCBjZW50ZXIgPSBib3guZ2V0Q2VudGVyKG5ldyBUSFJFRV9MaWIuVmVjdG9yMygpKTtcbiAgICBjZW50ZXIueSAtPSAwLjY4O1xuICAgIG9iamVjdC5wb3NpdGlvbi5zdWIoY2VudGVyKTsgXG5cbiAgICBzLmFkZChvYmplY3QpO1xuICB9IGNhdGNoIChlcnJvcikge1xuICAgIGNvbnNvbGUuZXJyb3IoXCJGYWlsZWQgdG8gbG9hZCB0aGUgZ29hdDpcIiwgZXJyb3IpO1xuICB9XG5cbiAgY29uc3QgbGlnaHQgPSBuZXcgVEhSRUUuRGlyZWN0aW9uYWxMaWdodCgweGZmZmZmZiwgMik7XG4gIGxpZ2h0LnBvc2l0aW9uLnNldCgyLCAyLCAyKTtcbiAgcy5hZGQobGlnaHQpO1xuICBzLmFkZChuZXcgVEhSRUUuQW1iaWVudExpZ2h0KDB4ZmZmZmZmLCAwLjUpKTtcbiAgXG4gIC8vIGNvbnN0IGdlbyA9IG5ldyBUSFJFRS5Cb3hHZW9tZXRyeSgxLCAxLCAxKTtcbiAgLy8gY29uc3QgbWF0ID0gbmV3IFRIUkVFLk1lc2hTdGFuZGFyZE1hdGVyaWFsKHsgY29sb3I6IDB4MDBBQWZmIH0pO1xuICAvLyBjb25zdCBtZXNoID0gbmV3IFRIUkVFLk1lc2goZ2VvLCBtYXQpO1xuICAvLyBzLmFkZChtZXNoKTtcblxuICBjb25zdCBzaXplID0gMTA7XG4gIGNvbnN0IGRpdmlzaW9ucyA9IDEwO1xuICBjb25zdCBncmlkSGVscGVyID0gbmV3IFRIUkVFLkdyaWRIZWxwZXIoIHNpemUsIGRpdmlzaW9ucyApO1xuICBzLmFkZCggZ3JpZEhlbHBlciApO1xuICBcbiAgcmV0dXJuIHM7XG59XG5cbmNhbWVyYSA9IG5ldyBUSFJFRS5QZXJzcGVjdGl2ZUNhbWVyYSg2MCwgdyAvIGgsIDAuMSwgMTAwKTtcbntcbiAgY2FtZXJhLnBvc2l0aW9uLnNldCgzLjUsIDQuNSwgMS41KTtcbiAgY2FtZXJhLmxvb2tBdCgwLCAwLCAwKTtcbn1cblxucmVuZGVyZXIgPSB7XG4gIGNvbnN0IHIgPSBuZXcgVEhSRUUuV2ViR0xSZW5kZXJlcih7IGFudGlhbGlhczogdHJ1ZSB9KTtcbiAgY29uc3QgY29udHJvbHMgPSBuZXcgT3JiaXRDb250cm9scy5PcmJpdENvbnRyb2xzKGNhbWVyYSwgci5kb21FbGVtZW50KTtcbiAgY29udHJvbHMua2V5cyA9IHtcbiAgICBMRUZUOiAnQXJyb3dMZWZ0JywgLy9sZWZ0IGFycm93XG4gICAgVVA6ICdBcnJvd1VwJywgLy8gdXAgYXJyb3dcbiAgICBSSUdIVDogJ0Fycm93UmlnaHQnLCAvLyByaWdodCBhcnJvd1xuICAgIEJPVFRPTTogJ0Fycm93RG93bicgLy8gZG93biBhcnJvd1xuICB9XG4gIHIuc2V0U2l6ZSh3LCBoKTtcbiAgci5zZXRQaXhlbFJhdGlvKHdpbmRvdy5kZXZpY2VQaXhlbFJhdGlvKTtcbiAgcmV0dXJuIHI7XG59XG5cbntcbiAgd2hpbGUgKHRydWUpIHtcbiAgICAvLyBzY2VuZS5jaGlsZHJlbi5mb3JFYWNoKGNoaWxkID0+IHtcbiAgICAvLyAgIGlmKGNoaWxkLmlzTWVzaCkgY2hpbGQucm90YXRpb24ueiArPSAwLjAxO1xuICAgIC8vICAgaWYoY2hpbGQuaXNNZXNoKSBjaGlsZC5yb3RhdGlvbi55ICs9IDAuMDE7XG4gICAgLy8gICBpZihjaGlsZC5pc01lc2gpIGNoaWxkLnJvdGF0aW9uLnggKz0gMC4wMTtcbiAgICAvLyB9KTtcbiAgICBcbiAgICByZW5kZXJlci5yZW5kZXIoc2NlbmUsIGNhbWVyYSk7XG4gICAgeWllbGQgcmVuZGVyZXIuZG9tRWxlbWVudDtcbiAgfVxufVxuXG4ifV19
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
