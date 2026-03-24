@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -39,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-73db7b5a953198da8f17fc5313e632aa.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-56a1e3db71204dfbc8a885484c5b40f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ece42c8223ec2bf36298a08f122c9a68.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-00feface57a40fb7a06c8694f9a70c45.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,9 +105,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -137,10 +173,185 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>About this site</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" data-startfrom="8" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 7;"><span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>THREE <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0"</span>)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>OrbitControls <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0/examples/jsm/controls/OrbitControls.js"</span>)<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>OBJLoader  <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0/addons/loaders/OBJLoader.js"</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>GLTFLoader  <span class="op">=</span> <span class="im">import</span>(<span class="st">"https://esm.sh/three@0.163.0/addons/loaders/GLTFLoader.js"</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> width<span class="op">;</span> </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>scene <span class="op">=</span> {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> THREE_Lib <span class="op">=</span> <span class="cf">await</span> THREE<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> { <span class="dt">GLTFLoader</span><span class="op">:</span> LoaderClass } <span class="op">=</span> <span class="cf">await</span> GLTFLoader<span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> s <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Scene</span>()<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="at">background</span> <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Color</span>(<span class="bn">0x111111</span>)<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> loader <span class="op">=</span> <span class="kw">new</span> <span class="fu">LoaderClass</span>()<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span> {</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> gltf <span class="op">=</span> <span class="cf">await</span> loader<span class="op">.</span><span class="fu">loadAsync</span>(<span class="st">'truck/texturedMesh.glb'</span>)<span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> model <span class="op">=</span> gltf<span class="op">.</span><span class="at">scene</span><span class="op">;</span> </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> box <span class="op">=</span> <span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Box3</span>()<span class="op">.</span><span class="fu">setFromObject</span>(model)<span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> size <span class="op">=</span> box<span class="op">.</span><span class="fu">getSize</span>(<span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Vector3</span>())<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> maxDim <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(size<span class="op">.</span><span class="at">x</span><span class="op">,</span> size<span class="op">.</span><span class="at">y</span><span class="op">,</span> size<span class="op">.</span><span class="at">z</span>)<span class="op">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> scale <span class="op">=</span> <span class="dv">2</span> <span class="op">/</span> maxDim<span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    model<span class="op">.</span><span class="at">scale</span><span class="op">.</span><span class="fu">set</span>(scale<span class="op">,</span> scale<span class="op">,</span> scale)<span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    box<span class="op">.</span><span class="fu">setFromObject</span>(model)<span class="op">;</span> </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> center <span class="op">=</span> box<span class="op">.</span><span class="fu">getCenter</span>(<span class="kw">new</span> THREE_Lib<span class="op">.</span><span class="fu">Vector3</span>())<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    center<span class="op">.</span><span class="at">y</span> <span class="op">-=</span> <span class="fl">0.68</span><span class="op">;</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    model<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">sub</span>(center)<span class="op">;</span> </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    s<span class="op">.</span><span class="fu">add</span>(model)<span class="op">;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">catch</span> (error) {</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">"Failed to load goat:"</span><span class="op">,</span> error)<span class="op">;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> light <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">DirectionalLight</span>(<span class="bn">0xffffff</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  light<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">2</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>(light)<span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>(<span class="kw">new</span> THREE<span class="op">.</span><span class="fu">AmbientLight</span>(<span class="bn">0xffffff</span><span class="op">,</span> <span class="fl">0.5</span>))<span class="op">;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const geo = new THREE.BoxGeometry(1, 1, 1);</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const mat = new THREE.MeshStandardMaterial({ color: 0x00AAff });</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// const mesh = new THREE.Mesh(geo, mat);</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">// s.add(mesh);</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> size <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> divisions <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> gridHelper <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">GridHelper</span>( size<span class="op">,</span> divisions )<span class="op">;</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  s<span class="op">.</span><span class="fu">add</span>( gridHelper )<span class="op">;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> s<span class="op">;</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>camera <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">PerspectiveCamera</span>(<span class="dv">60</span><span class="op">,</span> w <span class="op">/</span> h<span class="op">,</span> <span class="fl">0.1</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  camera<span class="op">.</span><span class="at">position</span><span class="op">.</span><span class="fu">set</span>( </span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fl">1.5739010063256612</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="op">,</span><span class="fl">1.0827573643662827</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="op">,-</span><span class="fl">0.3759417303914232</span>)<span class="op">;</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  camera<span class="op">.</span><span class="fu">lookAt</span>(<span class="fl">0.5</span><span class="op">,</span><span class="fl">0.85</span><span class="op">,-</span><span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-3" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-5" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-6" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-9" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-startfrom="74" data-source-offset="-1816"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 73;"><span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>renderer <span class="op">=</span> {</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> r <span class="op">=</span> <span class="kw">new</span> THREE<span class="op">.</span><span class="fu">WebGLRenderer</span>({ <span class="dt">antialias</span><span class="op">:</span> <span class="kw">true</span> })<span class="op">;</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> controls <span class="op">=</span> <span class="kw">new</span> OrbitControls<span class="op">.</span><span class="fu">OrbitControls</span>(camera<span class="op">,</span> r<span class="op">.</span><span class="at">domElement</span>)<span class="op">;</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>  r<span class="op">.</span><span class="fu">setSize</span>(w<span class="op">,</span> h)<span class="op">;</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>  r<span class="op">.</span><span class="fu">setPixelRatio</span>(<span class="bu">window</span><span class="op">.</span><span class="at">devicePixelRatio</span>)<span class="op">;</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> r<span class="op">;</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="kw">true</span>) {</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>    <span class="co">// scene.children.forEach(child =&gt; {</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.z += 0.01;</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.y += 0.01;</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="co">//   if(child.isMesh) child.rotation.x += 0.01;</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    <span class="co">// });</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    renderer<span class="op">.</span><span class="fu">render</span>(scene<span class="op">,</span> camera)<span class="op">;</span></span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> renderer<span class="op">.</span><span class="at">domElement</span><span class="op">;</span></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-10" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-1-11" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
 
 
 
 </main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlRIUkVFID0gaW1wb3J0KFwiaHR0cHM6Ly9lc20uc2gvdGhyZWVAMC4xNjMuMFwiKTtcbk9yYml0Q29udHJvbHMgPSBpbXBvcnQoXCJodHRwczovL2VzbS5zaC90aHJlZUAwLjE2My4wL2V4YW1wbGVzL2pzbS9jb250cm9scy9PcmJpdENvbnRyb2xzLmpzXCIpO1xuT0JKTG9hZGVyICA9IGltcG9ydChcImh0dHBzOi8vZXNtLnNoL3RocmVlQDAuMTYzLjAvYWRkb25zL2xvYWRlcnMvT0JKTG9hZGVyLmpzXCIpO1xuR0xURkxvYWRlciAgPSBpbXBvcnQoXCJodHRwczovL2VzbS5zaC90aHJlZUAwLjE2My4wL2FkZG9ucy9sb2FkZXJzL0dMVEZMb2FkZXIuanNcIik7XG5cblxuaCA9IDYwMDtcbncgPSB3aWR0aDsgXG5cbnNjZW5lID0ge1xuICBjb25zdCBUSFJFRV9MaWIgPSBhd2FpdCBUSFJFRTtcbiAgY29uc3QgeyBHTFRGTG9hZGVyOiBMb2FkZXJDbGFzcyB9ID0gYXdhaXQgR0xURkxvYWRlcjtcbiAgXG4gIGNvbnN0IHMgPSBuZXcgVEhSRUVfTGliLlNjZW5lKCk7XG4gIHMuYmFja2dyb3VuZCA9IG5ldyBUSFJFRV9MaWIuQ29sb3IoMHgxMTExMTEpO1xuXG4gIGNvbnN0IGxvYWRlciA9IG5ldyBMb2FkZXJDbGFzcygpO1xuICB0cnkge1xuICAgIGNvbnN0IGdsdGYgPSBhd2FpdCBsb2FkZXIubG9hZEFzeW5jKCd0cnVjay90ZXh0dXJlZE1lc2guZ2xiJyk7XG4gICAgXG4gICAgY29uc3QgbW9kZWwgPSBnbHRmLnNjZW5lOyBcbiAgICBcbiAgICBjb25zdCBib3ggPSBuZXcgVEhSRUVfTGliLkJveDMoKS5zZXRGcm9tT2JqZWN0KG1vZGVsKTtcbiAgICBjb25zdCBzaXplID0gYm94LmdldFNpemUobmV3IFRIUkVFX0xpYi5WZWN0b3IzKCkpO1xuICAgIFxuICAgIGNvbnN0IG1heERpbSA9IE1hdGgubWF4KHNpemUueCwgc2l6ZS55LCBzaXplLnopO1xuICAgIGNvbnN0IHNjYWxlID0gMiAvIG1heERpbTtcbiAgICBtb2RlbC5zY2FsZS5zZXQoc2NhbGUsIHNjYWxlLCBzY2FsZSk7XG5cbiAgICBib3guc2V0RnJvbU9iamVjdChtb2RlbCk7IFxuICAgIGNvbnN0IGNlbnRlciA9IGJveC5nZXRDZW50ZXIobmV3IFRIUkVFX0xpYi5WZWN0b3IzKCkpO1xuICAgIGNlbnRlci55IC09IDAuNjg7XG4gICAgbW9kZWwucG9zaXRpb24uc3ViKGNlbnRlcik7IFxuXG4gICAgcy5hZGQobW9kZWwpO1xuICB9IGNhdGNoIChlcnJvcikge1xuICAgIGNvbnNvbGUuZXJyb3IoXCJGYWlsZWQgdG8gbG9hZCBnb2F0OlwiLCBlcnJvcik7XG4gIH1cblxuICBjb25zdCBsaWdodCA9IG5ldyBUSFJFRS5EaXJlY3Rpb25hbExpZ2h0KDB4ZmZmZmZmLCAyKTtcbiAgbGlnaHQucG9zaXRpb24uc2V0KDIsIDIsIDIpO1xuICBzLmFkZChsaWdodCk7XG4gIHMuYWRkKG5ldyBUSFJFRS5BbWJpZW50TGlnaHQoMHhmZmZmZmYsIDAuNSkpO1xuICBcbiAgLy8gY29uc3QgZ2VvID0gbmV3IFRIUkVFLkJveEdlb21ldHJ5KDEsIDEsIDEpO1xuICAvLyBjb25zdCBtYXQgPSBuZXcgVEhSRUUuTWVzaFN0YW5kYXJkTWF0ZXJpYWwoeyBjb2xvcjogMHgwMEFBZmYgfSk7XG4gIC8vIGNvbnN0IG1lc2ggPSBuZXcgVEhSRUUuTWVzaChnZW8sIG1hdCk7XG4gIC8vIHMuYWRkKG1lc2gpO1xuXG4gIGNvbnN0IHNpemUgPSAxMDtcbiAgY29uc3QgZGl2aXNpb25zID0gMTA7XG4gIGNvbnN0IGdyaWRIZWxwZXIgPSBuZXcgVEhSRUUuR3JpZEhlbHBlciggc2l6ZSwgZGl2aXNpb25zICk7XG4gIHMuYWRkKCBncmlkSGVscGVyICk7XG4gIFxuICByZXR1cm4gcztcbn1cblxuY2FtZXJhID0gbmV3IFRIUkVFLlBlcnNwZWN0aXZlQ2FtZXJhKDYwLCB3IC8gaCwgMC4xLCAxMDApO1xue1xuICBjYW1lcmEucG9zaXRpb24uc2V0KCBcbjEuNTczOTAxMDA2MzI1NjYxMlxuLDEuMDgyNzU3MzY0MzY2MjgyN1xuLC0wLjM3NTk0MTczMDM5MTQyMzIpO1xuICBjYW1lcmEubG9va0F0KDAuNSwwLjg1LC0wKTtcbn1cblxucmVuZGVyZXIgPSB7XG4gIGNvbnN0IHIgPSBuZXcgVEhSRUUuV2ViR0xSZW5kZXJlcih7IGFudGlhbGlhczogdHJ1ZSB9KTtcbiAgY29uc3QgY29udHJvbHMgPSBuZXcgT3JiaXRDb250cm9scy5PcmJpdENvbnRyb2xzKGNhbWVyYSwgci5kb21FbGVtZW50KTtcbiAgci5zZXRTaXplKHcsIGgpO1xuICByLnNldFBpeGVsUmF0aW8od2luZG93LmRldmljZVBpeGVsUmF0aW8pO1xuICByZXR1cm4gcjtcbn1cblxue1xuICB3aGlsZSAodHJ1ZSkge1xuICAgIC8vIHNjZW5lLmNoaWxkcmVuLmZvckVhY2goY2hpbGQgPT4ge1xuICAgIC8vICAgaWYoY2hpbGQuaXNNZXNoKSBjaGlsZC5yb3RhdGlvbi56ICs9IDAuMDE7XG4gICAgLy8gICBpZihjaGlsZC5pc01lc2gpIGNoaWxkLnJvdGF0aW9uLnkgKz0gMC4wMTtcbiAgICAvLyAgIGlmKGNoaWxkLmlzTWVzaCkgY2hpbGQucm90YXRpb24ueCArPSAwLjAxO1xuICAgIC8vIH0pO1xuXG4gICAgcmVuZGVyZXIucmVuZGVyKHNjZW5lLCBjYW1lcmEpO1xuICAgIHlpZWxkIHJlbmRlcmVyLmRvbUVsZW1lbnQ7XG4gIH1cbn1cblxuIn1dfQ==
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -3,3 +3,93 @@ title: "About"
 ---
 
 About this site
+
+```{ojs}
+THREE = import("https://esm.sh/three@0.163.0");
+OrbitControls = import("https://esm.sh/three@0.163.0/examples/jsm/controls/OrbitControls.js");
+OBJLoader  = import("https://esm.sh/three@0.163.0/addons/loaders/OBJLoader.js");
+GLTFLoader  = import("https://esm.sh/three@0.163.0/addons/loaders/GLTFLoader.js");
+
+
+h = 600;
+w = width; 
+
+scene = {
+  const THREE_Lib = await THREE;
+  const { GLTFLoader: LoaderClass } = await GLTFLoader;
+  
+  const s = new THREE_Lib.Scene();
+  s.background = new THREE_Lib.Color(0x111111);
+
+  const loader = new LoaderClass();
+  try {
+    const gltf = await loader.loadAsync('truck/texturedMesh.glb');
+    
+    const model = gltf.scene; 
+    
+    const box = new THREE_Lib.Box3().setFromObject(model);
+    const size = box.getSize(new THREE_Lib.Vector3());
+    
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = 2 / maxDim;
+    model.scale.set(scale, scale, scale);
+
+    box.setFromObject(model); 
+    const center = box.getCenter(new THREE_Lib.Vector3());
+    center.y -= 0.68;
+    model.position.sub(center); 
+
+    s.add(model);
+  } catch (error) {
+    console.error("Failed to load goat:", error);
+  }
+
+  const light = new THREE.DirectionalLight(0xffffff, 2);
+  light.position.set(2, 2, 2);
+  s.add(light);
+  s.add(new THREE.AmbientLight(0xffffff, 0.5));
+  
+  // const geo = new THREE.BoxGeometry(1, 1, 1);
+  // const mat = new THREE.MeshStandardMaterial({ color: 0x00AAff });
+  // const mesh = new THREE.Mesh(geo, mat);
+  // s.add(mesh);
+
+  const size = 10;
+  const divisions = 10;
+  const gridHelper = new THREE.GridHelper( size, divisions );
+  s.add( gridHelper );
+  
+  return s;
+}
+
+camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 100);
+{
+  camera.position.set( 
+1.5739010063256612
+,1.0827573643662827
+,-0.3759417303914232);
+  camera.lookAt(0.5,0.85,-0);
+}
+
+renderer = {
+  const r = new THREE.WebGLRenderer({ antialias: true });
+  const controls = new OrbitControls.OrbitControls(camera, r.domElement);
+  r.setSize(w, h);
+  r.setPixelRatio(window.devicePixelRatio);
+  return r;
+}
+
+{
+  while (true) {
+    // scene.children.forEach(child => {
+    //   if(child.isMesh) child.rotation.z += 0.01;
+    //   if(child.isMesh) child.rotation.y += 0.01;
+    //   if(child.isMesh) child.rotation.x += 0.01;
+    // });
+
+    renderer.render(scene, camera);
+    yield renderer.domElement;
+  }
+}
+
+```
