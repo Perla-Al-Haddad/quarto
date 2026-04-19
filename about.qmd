@@ -23,7 +23,7 @@ scene = {
 
   const loader = new LoaderClass();
   try {
-    const gltf = await loader.loadAsync('truck/texturedMesh.glb');
+    const gltf = await loader.loadAsync('shoe/final_shoe.glb');
     
     const model = gltf.scene; 
     
