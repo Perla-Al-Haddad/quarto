@@ -8,6 +8,7 @@ resources:
   - lowpolygoat/
   - truck/
   - shoe/
+  - draco/
 ---
 
 

@@ -9,6 +9,7 @@ THREE = import("https://esm.sh/three@0.163.0");
 OrbitControls = import("https://esm.sh/three@0.163.0/examples/jsm/controls/OrbitControls.js");
 OBJLoader  = import("https://esm.sh/three@0.163.0/addons/loaders/OBJLoader.js");
 GLTFLoader  = import("https://esm.sh/three@0.163.0/addons/loaders/GLTFLoader.js");
+DracoLoader = import("https://esm.sh/three@0.163.0/addons/loaders/DRACOLoader.js");
 
 
 h = 600;
@@ -17,13 +18,18 @@ w = width;
 scene = {
   const THREE_Lib = await THREE;
   const { GLTFLoader: LoaderClass } = await GLTFLoader;
+  const { DRACOLoader } = await DracoLoader;
   
   const s = new THREE_Lib.Scene();
   s.background = new THREE_Lib.Color(0x111111);
 
+  const dracoLoader = new DRACOLoader();
+  dracoLoader.setDecoderPath('draco/');
+  
   const loader = new LoaderClass();
+  loader.setDRACOLoader(dracoLoader);
   try {
-    const gltf = await loader.loadAsync('shoe/final_shoe.glb');
+    const gltf = await loader.loadAsync('shoe/shoe_clean.compressed.glb');
     
     const model = gltf.scene; 
     
